@@ -1,51 +1,35 @@
 #include "main.h"
 #include <string.h>
-#include <math.h>
+#include <stdlib.h>
 
 /**
  * _atoi - converts a string to an integer.
- * @dest: the string to be converted
+ * @s: the string to be converted
  * Return: the integer
  */
 int _atoi(char *s)
 {
-	int i, j, k, len, minus, plus, countInt, result;
-	char *res;
+	int sign = 1;
+	unsigned int result = 0;
+	char null_flag = 0;
 
-	len = strlen(s);
-	plus = 0;
-	minus = 0;
-	countInt = 0;
-	res = " ";
-
-	for (i = 0; i < len; i++)
+	while (*s)
 	{
-		if (s[i] == ';')
+		if (*s == '-')
+			sign *= -1;
+
+		if (*s >= '0' && *s <= '9')
+		{
+			null_flag = 1;
+			result = result * 10 + *s - '0';
+		}
+
+		else if (null_flag)
 			break;
-		if (s[i] == '+')
-			plus++;
-		if (s[i] == '-')
-			minus++;
-		if (s[i] <= 9 || s[i] >= 0)
-		{
-			res[countInt] = s[i];
-			countInt++;
-		}
+		s++;
 	}
-	if(countInt == 0)
-		result = 0;
-	else
-	{
-		for (j = 0; j <= countInt - 2; j++)
-		{
-			int p = 1;
 
-			for (k = countInt - 2 - j; k > 0; k--)
-				p *= 10;
-			result += res[j] * p;
-		}
-		if (minus % 2 != 0)
-			result *= -1;
-	}
+	if (sign < 0)
+		result *= -1;
 	return (result);
 }
